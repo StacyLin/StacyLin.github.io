@@ -48,9 +48,11 @@
                                 // This creates an action which we've chosen to name "fetch". It issues
                                 // an JSONP request to the URL of the resource. JSONP requires that the
                                 // callback=JSON_CALLBACK part is added to the URL.
-                          
+                                request: {method: 'GET'}
                             });
-                            api.fetch(function(response){
+                           api.request(
+                                {},
+                                function(response){
                                 // Call the supplied callback function
                                 callback(response.data);
                                 window.console.log(response.data);

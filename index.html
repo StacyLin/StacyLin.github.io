@@ -1,0 +1,291 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <meta charset=utf-8 /> 
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
+        <script src="https://code.angularjs.org/1.4.8/angular-resource.min.js"></script>
+        <style>
+            body{
+            padding-top: 60px;
+            }
+            ‪#time‬{
+            font-size: large;
+            }
+            .zoom-size{
+            font-size:22px;
+            font-weight:bold;
+            color: deeppink;
+            }
+            .del{
+            text-decoration:line-through;
+            border: 22px; 
+            }
+            .del > b.zoom-size {
+            font-size: inherit;
+            color: inherit;
+            }
+        </style>
+        <script>
+            
+            
+            var invoice_app = angular.module('invoice',['ngResource']);
+         
+                invoice_app.config(
+                    function($httpProvider) {
+                        $httpProvider.defaults.headers.common['X-Requested-With']='XMLHttpRequest';
+                    }
+                );
+            
+                 invoice_app.factory('instagram', function($resource){
+                    return {
+                        fetchPopular: function(callback){
+                            // The ngResource module gives us the $resource service. It makes working with
+                            // AJAX easy. Here I am using the client_id of a test app. Replace it with yours.
+                            var api = $resource('http://company.g0v.ronny.tw/api/show/:client_id',{
+                                    client_id: '28423304'
+                            },{
+                                // This creates an action which we've chosen to name "fetch". It issues
+                                // an JSONP request to the URL of the resource. JSONP requires that the
+                                // callback=JSON_CALLBACK part is added to the URL.
+                                fetch:{method:'JSON'}
+                            });
+                            api.fetch(function(response){
+                                // Call the supplied callback function
+                                callback(response.data);
+                                window.console.log(response.data);
+                            });
+                        }
+                    }
+                });
+            
+                invoice_app.controller('app-ctr',           
+                                       
+                                       
+                  function($scope,instagram){
+                    
+                    $scope.array = [];
+                
+                  
+                    instagram.fetchPopular(
+                        function(data){
+                        // Assigning the pics array will cause the view
+                        // to be automatically redrawn by Angular.
+                           $scope.array = data;
+                        }
+                    );
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    var RowObj = function() {
+                        
+                        return { 
+                        price: null,
+                        cost: null,
+                        quantity: null,
+                        totalCost: null
+                        };
+                        
+                    };
+                    $scope.rows = [];
+                    $scope.rows.push(new RowObj);
+                    
+                    $scope.addRow = function() {
+                        $scope.rows.push(new RowObj);
+                    };
+                    
+                    $scope.delRow = function(index) {
+                        $scope.rows.splice(index, 1);
+                    };
+                    
+                    $scope.timestamp = function() {
+                        var today = new Date();
+                            return {
+                            year: today.getFullYear(),
+                            month: today.getMonth() + 1,
+                            date: today.getDate()
+                            };
+                    }();
+                    
+                    <!-- 金額(未稅)--> 
+                    $scope.totalCost = function(index, price, quantity){
+                        if (price === undefined) {
+                            price = 0;
+                        }
+
+                        if (quantity === undefined) {
+                            quantity = 0;
+                        }
+                        $scope.rows[index].totalCost = parseFloat($scope.cost(price)*quantity);
+                        return $scope.fixFloat($scope.rows[index].totalCost, 2);
+                    };
+                    
+                    <!-- 四捨五入-->
+                    $scope.fixFloat = function(real, n) {
+                        var num = new Number(real);
+                        return parseFloat(num.toFixed(n));
+                    };
+                    
+                    <!-- 單價(未稅)-->
+                    $scope.cost = function(price){
+                        return $scope.fixFloat(parseFloat(price/1.05), 2);
+                    };
+                    
+                    <!-- 銷售合計-->
+                    $scope.selltotal = function(){ 
+                        var sum =0;
+                        for(var i = 0; i < $scope.rows.length; i++){
+                            sum += parseFloat($scope.rows[i].totalCost);
+                        }
+                        return $scope.fixFloat(sum, 0);
+                    };
+                    
+                    <!-- 營業稅-->
+                    $scope.tax = function(){ 
+                        return $scope.fixFloat($scope.selltotal()*0.05);
+                    };
+                    
+                    <!-- 總計-->
+                    $scope.total = function(){
+                        return $scope.selltotal() +　$scope.tax();
+                    };
+                    
+                    <!-- 中文數字-->
+                    $scope.bigword = ["—","壹","貳","参","肆","伍","陸","柒","捌","玖"];
+                    $scope.units = ["億", "仟", "佰", "拾", "萬", "仟", "佰", "拾", "元"];
+                    
+                
+                    <!-- 取的中文數字-->
+                    $scope.getDigit = function(i) {
+                        var sum=0;
+                        sum = Math.floor($scope.total()/Math.pow(10, i));
+                        return Math.floor(sum%10);
+                    }
+                    
+                    <!-- 判斷刪除線-->
+                    $scope.isZero = function(i){
+                        if($scope.getDigit(i) === 0){
+                            return true;
+                        }
+                        else{
+                        return false;
+                        } 
+                    }
+                } );
+
+        </script>
+    </head>
+    <body ng-app="invoice">
+    <div class="row" ng-controller="app-ctr">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10">
+            <div id="time">
+            <p>今天日期是 {{timestamp.year}} 年 {{timestamp.month}} 月 {{timestamp.date}} 日</p>
+            </div>
+            <div class="jumbotron">
+                <h2>三聯發票小幫手</h2>
+                <p>查詢公司全名、檢查統編、計算稅額</p>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6" >
+                    <h4>買受人 & 統一編號</h4>
+                    <p>統編檢查與公司全名查詢僅含公司行號，不含法人團體。</p>
+
+                    <div class="form-group has-success"  >
+                        <label class="control-label" for="inputSuccess1">買受人</label>
+                        <input type="text" class="form-control" id="inputSuccess1">
+                      
+                    </div>
+                    <div class="form-group has-error">
+                        <label class="control-label" for="inputError1">統一編號</label>
+                        <input type="text" class="form-control" id="inputError1" maxlength="8" ng-model="input">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h4>金額</h4>
+                                <p>「單價（含稅）」與「單價（未稅）」擇一填寫。</p>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-repeat="row in rows">
+                            <div class="col-xs-12">
+                                <form class="form-inline" >
+                                    <input type="number" class="form-control" placeholder="單價(含稅)" ng-model="row.price" />
+                                    <input type="number" class="form-control" placeholder="數量" ng-model="row.quantity" />
+
+                                    <div class="input-group">
+                                        <div class="input-group-addon">單價(未稅)</div>
+                                        <input type="number" class="form-control" ng-value="cost(row.price)" readonly>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <div class="input-group-addon">金額（未稅）</div>
+                                        <input type="number" class="form-control" ng-value="totalCost($index, row.price,row.quantity)" readonly>
+                                    </div>
+
+                                    <button class="btn btn-default" ng-click="addRow()" ng-show="$last" >
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-default" ng-click="delRow($index)" ng-hide="$last">
+                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                    </button>
+                                </form><br>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form class="form-inline">          
+                                    <div class="input-group">
+                                        <div>銷售合計</div>
+                                        <input type="number" class="form-control" ng-value="selltotal()" readonly>
+                                    </div><br>
+
+                                    <div class="input-group">
+                                        <div>營業稅%</div>
+                                        <input type="number" class="form-control" value="5">
+
+                                        <div>營業稅金額</div>
+                                        <input type="number" class="form-control" ng-value="tax()" readonly/>
+                                    </div><br>
+
+                                    <div class="input-group">
+                                        <div>總計</div>
+                                        <input type="number" class="form-control" ng-value="total()" readonly/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>總計新台幣(中文大寫)</label>
+                                    <span id = "total-word" >
+                                        <span ng-repeat="unit in units track by $index" ng-class="{'del': isZero(units.length - $index - 1)}">
+                                            <b class="zoom-size"> 
+                                                {{bigword[getDigit(units.length - $index - 1)]}}
+                                            </b>
+                                            {{unit}}
+                                        </span>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+            </div>
+            <div class="col-xs-1"></div>
+        </div>
+    </div>
+    </body>
+</html>

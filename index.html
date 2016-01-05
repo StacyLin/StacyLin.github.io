@@ -40,22 +40,9 @@
                  invoice_app.factory('instagram', function($resource){
                     return {
                         fetchPopular: function(callback){
-                            // The ngResource module gives us the $resource service. It makes working with
-                            // AJAX easy. Here I am using the client_id of a test app. Replace it with yours.
-                            var api = $resource('http://company.g0v.ronny.tw/api/show/:client_id',{
-                                    client_id: '28423304'
-                            },{
-                                // This creates an action which we've chosen to name "fetch". It issues
-                                // an JSONP request to the URL of the resource. JSONP requires that the
-                                // callback=JSON_CALLBACK part is added to the URL.
-                                request: {method: 'GET'}
-                            });
-                           api.request(
-                                {},
-                                function(response){
-                                // Call the supplied callback function
-                                callback(response.data);
-                                window.console.log(response.data);
+                           var api = $resource('http://company.g0v.ronny.tw/api/show/:client_id',{client_id: '@id'});
+                            api.get({client_id:'28423304'}, function(response) {
+                                window.console.log(response);
                             });
                         }
                     }

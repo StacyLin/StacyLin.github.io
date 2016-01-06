@@ -9,21 +9,35 @@
             body{
             padding-top: 60px;
             }
+            
             ‪#time‬{
             font-size: large;
             }
+            
             .zoom-size{
             font-size:22px;
             font-weight:bold;
             color: deeppink;
             }
+            
             .del{
             text-decoration:line-through;
             border: 22px; 
             }
+            
             .del > b.zoom-size {
             font-size: inherit;
             color: inherit;
+            }
+            
+            .red{
+                border-color:red;
+                border-width: 3px;
+            }
+            
+            .yellow{
+                border-color:yellow;
+                border-width: 3px;
             }
         </style>
         <script>
@@ -31,18 +45,23 @@
             
             var invoice_app = angular.module('invoice',['ngResource']);
          
-                invoice_app.config(
-                    function($httpProvider) {
-                        $httpProvider.defaults.headers.common['X-Requested-With']='XMLHttpRequest';
-                    }
-                );
-            
-                 invoice_app.factory('instagram', function($resource){
+              invoice_app.factory('instagram', function($resource){
                     return {
                         fetchPopular: function(callback){
-                           var api = $resource('http://company.g0v.ronny.tw/api/show/:client_id',{client_id: '@id'});
-                            api.get({client_id:'28423304'}, function(response) {
-                                window.console.log(response);
+                            // The ngResource module gives us the $resource service. It makes working with
+                            // AJAX easy. Here I am using the client_id of a test app. Replace it with yours.
+                            var api = $resource('http://company.g0v.ronny.tw/api/show/:client_id&callback=JSON_CALLBACK',{
+                                client_id: '28423304'
+                            },{
+                                // This creates an action which we've chosen to name "fetch". It issues
+                                // an JSONP request to the URL of the resource. JSONP requires that the
+                                // callback=JSON_CALLBACK part is added to the URL.
+                                fetch:{method:'JSONP'}
+                            });
+                            api.fetch(function(response){
+                                // Call the supplied callback function
+                                callback(response.data);
+                                window.console.log(response.data);
                             });
                         }
                     }
@@ -166,6 +185,20 @@
                         return false;
                         } 
                     }
+                    
+                    $scope.boder = function(i){
+                        if(i!= null){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                         
+                    }
+                    
+                    
+                    
+                    
                 } );
 
         </script>
@@ -187,14 +220,14 @@
                     <h4>買受人 & 統一編號</h4>
                     <p>統編檢查與公司全名查詢僅含公司行號，不含法人團體。</p>
 
-                    <div class="form-group has-success"  >
-                        <label class="control-label" for="inputSuccess1">買受人</label>
-                        <input type="text" class="form-control" id="inputSuccess1">
-                      
+                    <div ng-repeat="index in array" >
+                        <label class="control-label">買受人</label>
+                        <input type="text" class="form-control" ng-value="data.分公司名稱"
+                           ng-class="{'yellow':boder(index.caption.from.username),'red':!(boder(index.caption.from.username))}">  
                     </div>
-                    <div class="form-group has-error">
-                        <label class="control-label" for="inputError1">統一編號</label>
-                        <input type="text" class="form-control" id="inputError1" maxlength="8" ng-model="input">
+                    <div >
+                        <label class="control-label">統一編號</label>
+                        <input type="text" class="form-control" maxlength="8" ng-model="input">
                     </div>
                 </div>
                 <div class="row">

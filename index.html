@@ -220,13 +220,13 @@
                     <h4>買受人 & 統一編號</h4>
                     <p>統編檢查與公司全名查詢僅含公司行號，不含法人團體。</p>
 
-                    <div ng-repeat="index in array" >
+                    <div  >
                         <label class="control-label">買受人</label>
-                        <input type="text" class="form-control"> 
+                        <input type="text" class="form-control" ng-value="data['分公司名稱']">
                     </div>
                     <div >
                         <label class="control-label">統一編號</label>
-                        <input type="text" class="form-control" maxlength="8" ng-model="input">
+                        <input type="text" class="form-control" maxlength="8">
                     </div>
                 </div>
                 <div class="row">

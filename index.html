@@ -47,11 +47,13 @@
          
               invoice_app.factory('instagram', function($resource){
                     return {
-                        fetchPopular: function(callback){
+                        fetchPopular: 
+                        
+                            function(callback){
                             // The ngResource module gives us the $resource service. It makes working with
                             // AJAX easy. Here I am using the client_id of a test app. Replace it with yours.
                             var api = $resource('http://company.g0v.ronny.tw/api/show/:client_id?callback=JSON_CALLBACK',{
-                                client_id: '28423304'
+                                client_id: 'input'
                             },{
                                 // This creates an action which we've chosen to name "fetch". It issues
                                 // an JSONP request to the URL of the resource. JSONP requires that the
@@ -68,20 +70,17 @@
                 });
             
                 invoice_app.controller('app-ctr',           
-                                       
-                                       
-                  function($scope,instagram){
+        
+                    function($scope,instagram){
                     
-                    $scope.array = [];
+                        $scope.array = [];
                 
-                  
-                    instagram.fetchPopular(
-                        function(data){
-                        // Assigning the pics array will cause the view
-                        // to be automatically redrawn by Angular.
-                           $scope.array = data;
-                        }
-                    );
+                        instagram.fetchPopular( 
+                        
+                            function(data){
+                                $scope.array = data;
+                            }
+                        );
                     
                     
                     
@@ -196,6 +195,11 @@
                          
                     }
                     
+                    $scope.change = function(i){
+                        if(i.length===8){
+                           window.console.log(i);
+                        }
+                    }
                     
                     
                     
@@ -222,11 +226,12 @@
 
                     <div  >
                         <label class="control-label">買受人</label>
-                        <input type="text" class="form-control" ng-value="data['分公司名稱']">
+                        <input type="text" class="form-control" ng-value="array['分公司名稱']">
                     </div>
                     <div >
                         <label class="control-label">統一編號</label>
-                        <input type="text" class="form-control" maxlength="8">
+                        <input type="text" class="form-control" maxlength="8" ng-model="input" ng-change="change(input)" >
+               
                     </div>
                 </div>
                 <div class="row">

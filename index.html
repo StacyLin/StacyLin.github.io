@@ -53,7 +53,7 @@
                             // The ngResource module gives us the $resource service. It makes working with
                             // AJAX easy. Here I am using the client_id of a test app. Replace it with yours.
                             var api = $resource('http://company.g0v.ronny.tw/api/show/:client_id?callback=JSON_CALLBACK',{
-                                client_id: 'input'
+                                client_id: '$scope.input'
                             },{
                                 // This creates an action which we've chosen to name "fetch". It issues
                                 // an JSONP request to the URL of the resource. JSONP requires that the
@@ -75,12 +75,7 @@
                     
                         $scope.array = [];
                 
-                        instagram.fetchPopular( 
-                        
-                            function(data){
-                                $scope.array = data;
-                            }
-                        );
+                       
                     
                     
                     
@@ -197,7 +192,12 @@
                     
                     $scope.change = function(i){
                         if(i.length===8){
-                           window.console.log(i);
+                            instagram.fetchPopular(
+                        
+                                function(data){
+                                $scope.array = data;
+                                }
+                            );
                         }
                     }
                     

@@ -6,13 +6,31 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
         <script src="https://code.angularjs.org/1.4.8/angular-resource.min.js"></script>
         <style>
+            #a{
+               
+                background-color: aqua;
+            }
+            
             body{
             padding-top: 60px;
+            font-size: 18px;　　
             }
             
             ‪#time‬{
             font-size: large;
             }
+            
+            h2#title{ 
+                /*font-size:60px%;　　　　　          /* 設定文字大小 */
+                text-align: center;
+               /* line-height: 24px;　*/　　          　/* 設定文字行距 */
+                letter-spacing: 50px;　            　/* 設定文字間距 */
+                background-image: url(dot.gif);    /* 設定文字背景圖  */
+            } 
+            
+            
+            
+            
             
             .zoom-size{
             font-size:22px;
@@ -32,11 +50,6 @@
             
             .red{
                 border-color:red;
-                border-width: 3px;
-            }
-            
-            .yellow{
-                border-color:yellow;
                 border-width: 3px;
             }
             
@@ -188,22 +201,33 @@
                         }
                          
                     }
-                    
+                     
+                    <!-- 需修改-->
                     $scope.change = function(i){
                         if(i.length===8){
                             var callback = function(response){
                                 if (response.error === true) {
                                     $scope.com_name = response.message;
-                                    return true;
+                                    $scope.com_address = response.message;
+                                    
                                 }
                                 if (response.data["公司名稱"] !== undefined) {
                                     $scope.com_name = response.data["公司名稱"];
                                 }
-                                else if (response.data["分公司名稱"] !== undefined) {
+                                
+                                if (response.data["公司所在地"] !== undefined) {
+                                    $scope.com_address = response.data["公司所在地"];
+                                }
+                                
+                                if (response.data["分公司名稱"] !== undefined) {
                                     $scope.com_name = response.data["分公司名稱"];
                                 }
-                                else if (response.data["商業名稱"] !== undefined) {
+                                
+                                if (response.data["商業名稱"] !== undefined) {
                                     $scope.com_name = response.data["商業名稱"];
+                                }
+                                if (response.data["地址"] !== undefined) {
+                                    $scope.com_address = response.data["地址"];
                                 }
                             };
                       
@@ -214,6 +238,7 @@
                         }
                           else{
                             $scope.com_name = undefined;
+                            $scope.com_address = undefined;
                         }
                     }
                  
@@ -240,112 +265,148 @@
         </script>
     </head>
     <body ng-app="invoice">
-    <div class="row" ng-controller="app-ctr">
-        <div class="col-xs-1"></div>
-        <div class="col-xs-10">
-            <div id="time">
-            <p>今天日期是 {{timestamp.year}} 年 {{timestamp.month}} 月 {{timestamp.date}} 日</p>
+        <!-- 整個版面-->
+        <div ng-controller="app-ctr">
+            
+            
+            <!-- 主頁面範圍-->
+            <div class="row" background-color="red">
+                <div class="col-xs-12">
+                    <div>
+                        <h2>三聯發票小幫手</h2>
+                        <p>查詢公司全名、檢查統編、計算稅額</p>
+                    </div>
+                 </div>
             </div>
-            <div class="jumbotron">
-                <h2>三聯發票小幫手</h2>
-                <p>查詢公司全名、檢查統編、計算稅額</p>
-            </div>
-
+            
+            <!-- 標題文字-->
             <div class="row">
-                <div class="col-xs-6" >
-                    <h4>買受人 & 統一編號</h4>
-                    <p>統編檢查與公司全名查詢僅含公司行號，不含法人團體。</p>
-
-                    <div  >
-                        <label class="control-label">買受人</label>
-                        <input type="text" class="form-control" ng-value="com_name" ng-class="     
-                        {'red':redActive(),'green':greenActive()}" readonly >
-                    </div>
-                    <div >
-                        <label class="control-label">統一編號</label>
-                        <input type="text" class="form-control" maxlength="8" ng-model="input" ng-change="change(input)" ng-class="     
-                        {'green':input.length===8}">
-               
-                    </div>
-                </div123456
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <h4>金額</h4>
-                                <p>「單價（含稅）」與「單價（未稅）」擇一填寫。</p>
-                            </div>
-                        </div>
-
-                        <div class="row" ng-repeat="row in rows">
-                            <div class="col-xs-12">
-                                <form class="form-inline" >
-                                    <input type="number" class="form-control" placeholder="單價(含稅)" ng-model="row.price" />
-                                    <input type="number" class="form-control" placeholder="數量" ng-model="row.quantity" />
-
-                                    <div class="input-group">
-                                        <div class="input-group-addon">單價(未稅)</div>
-                                        <input type="number" class="form-control" ng-value="cost(row.price)" readonly>
-                                    </div>
-
-                                    <div class="input-group">
-                                        <div class="input-group-addon">金額（未稅）</div>
-                                        <input type="number" class="form-control" ng-value="totalCost($index, row.price,row.quantity)" readonly>
-                                    </div>
-
-                                    <button class="btn btn-default" ng-click="addRow()" ng-show="$last" >
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </button>
-                                    <button class="btn btn-default" ng-click="delRow($index)" ng-hide="$last">
-                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                    </button>
-                                </form><br>
-
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <form class="form-inline">          
-                                    <div class="input-group">
-                                        <div>銷售合計</div>
-                                        <input type="number" class="form-control" ng-value="selltotal()" readonly>
-                                    </div><br>
-
-                                    <div class="input-group">
-                                        <div>營業稅%</div>
-                                        <input type="number" class="form-control" value="5">
-
-                                        <div>營業稅金額</div>
-                                        <input type="number" class="form-control" ng-value="tax()" readonly/>
-                                    </div><br>
-
-                                    <div class="input-group">
-                                        <div>總計</div>
-                                        <input type="number" class="form-control" ng-value="total()" readonly/>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <label>總計新台幣(中文大寫)</label>
-                                    <span id = "total-word" >
-                                        <span ng-repeat="unit in units track by $index" ng-class="{'del': isZero(units.length - $index - 1)}">
-                                            <b class="zoom-size"> 
-                                                {{bigword[getDigit(units.length - $index - 1)]}}
-                                            </b>
-                                            {{unit}}
-                                        </span>
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
-                </div><br>
+                <div class="col-xs-12">
+                    <h2 id="title">統一發票</h2>
+                </div>
             </div>
-            <div class="col-xs-1"></div>
+            <!-- 標題月份-->        
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="time">
+                        <!-- 之後要調整月份-->
+                        <p style="text-align: center">{{timestamp.year-1911}} 年 {{timestamp.month}}、{{timestamp.month+1}} 月 </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第一段主題-->
+            <div class="row">
+                <div class="col-xs-12" >
+                    <h3 style="text-align: center">買受人 & 統一編號  <span style="font-size: 60%">統編檢查與公司全名查詢僅含公司行號，不含法人團體。</span></h3>
+               
+                
+                    <div class="row">
+                        <div class="col-xs-12" >
+                            <form class="form-horizontal" role="form">
+
+                              <!-- 買受人-->
+                              <div class="form-group">
+                                <label class="control-label col-xs-2">買受人:</label>
+                                <div class="col-xs-4">
+                                  <input type="text" class="form-control"  ng-value="com_name" ng-class="     
+                                    {'red':redActive(),'green':greenActive()}" readonly>
+                                </div>
+                              </div>
+
+                              <!-- 統一編號-->
+                              <div class="form-group">
+                                <label class="control-label col-xs-2">統一編號:</label>
+                                <div class="col-xs-4"> 
+                                  <input type="text" class="form-control" maxlength="8" ng-model="input" ng-change="change(input)" ng-class="     
+                                    {'green':input.length===8}">
+                                </div>
+                                <!-- 日期-->
+                                <div class="col-xs-6"> 
+                                  <p>中華民國 {{timestamp.year-1911}} 年 {{timestamp.month}} 月 {{timestamp.date}} 日</p>
+                                </div> 
+                              </div>
+
+                              <!-- 地址--> 
+                              <div class="form-group">
+                                <label class="control-label col-xs-2">地址:</label>
+                                <div class="col-xs-6">
+                                  <input type="text" class="form-control"  ng-value="com_address" ng-class="     
+                                    {'red':redActive(),'green':greenActive()}" readonly>
+                                </div>
+                              </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第二段主題-->
+             <div class="row">
+                <div class="col-xs-1"></div>
+                 
+                <div class="col-xs-10">
+                  <table class="table table-bordered">
+                     <tr>
+                        <th>品名</th><th>數量</th><th>單價(含稅)</th><th>單價(未稅)</th><th>金額(未稅)</th><th>&nbsp;</th>
+                     </tr>
+                      
+                     <tr ng-repeat="row in rows">
+                        <td><input type="text" class="form-control"/></td>
+                        <td><input type="number" class="form-control" placeholder="數量" ng-model="row.quantity"/></td> 
+                        <td><input type="number" class="form-control" placeholder="單價(含稅)" ng-model="row.price" /></td>
+                        <td><input type="number" class="form-control" ng-value="cost(row.price)" readonly></td>
+                        <td><input type="number" class="form-control" ng-value="totalCost($index, row.price,row.quantity)" readonly></td>
+                        <td>
+                          <button class="btn btn-default" ng-click="addRow()" ng-show="$last" >
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                          </button>
+                          <button class="btn btn-default" ng-click="delRow($index)" ng-hide="$last">
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                          </button>
+                        </td>
+                      </tr>               
+                  </table>
+                    
+                  <table class="table table-hover">
+                     <tr>
+                        <td>銷售合計</td>
+                        <td colspan="3"><input type="number" class="form-control" ng-value="selltotal()" readonly></td>  
+                     </tr>
+                     <tr>
+                        <td>營業稅%</td>
+                        <td><input type="number" class="form-control" value="5"></td>
+                         
+                        <td>營業稅金額</td>
+                        <td><input type="number" class="form-control" ng-value="tax()" readonly/></td>  
+                     </tr>
+                     <tr>
+                        <td>總計</td>
+                        <td colspan="3"><input type="number" class="form-control" ng-value="total()" readonly/></td>  
+                     </tr> 
+                     <tr>
+                        <td>總計新台幣(中文大寫)</td>
+                        <td>
+                           <span id = "total-word" >
+                             <span ng-repeat="unit in units track by $index" ng-class="{'del': isZero(units.length - $index - 1)}">
+                                <b class="zoom-size"> 
+                                    {{bigword[getDigit(units.length - $index - 1)]}}
+                                </b>
+                                {{unit}}
+                             </span>
+                           </span>
+                         </td>  
+                     </tr>
+                  </table>
+                </div>
+                 
+                <div class="col-xs-1"></div>
+            </div>
+            
         </div>
-    </div>
+           
+          
+       
     </body>
 </html>

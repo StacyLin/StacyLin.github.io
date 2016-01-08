@@ -39,6 +39,11 @@
                 border-color:yellow;
                 border-width: 3px;
             }
+            
+            .green{
+                border-color:green;
+                border-width: 3px;
+            }
         </style>
         <script>
             
@@ -189,7 +194,7 @@
                             var callback = function(response){
                                 if (response.error === true) {
                                     $scope.com_name = response.message;
-                                    return;
+                                    return true;
                                 }
                                 if (response.data["公司名稱"] !== undefined) {
                                     $scope.com_name = response.data["公司名稱"];
@@ -201,11 +206,35 @@
                                     $scope.com_name = response.data["商業名稱"];
                                 }
                             };
+                      
+                        
+                           
                            instagram.fetchPopular(i, callback);
+                           
+                        }
+                          else{
+                            $scope.com_name = undefined;
                         }
                     }
+                 
+                 
                     
                     
+                    $scope.redActive = function(){
+                        if($scope.com_name ==="Company not found"){
+                            return true;
+                        } 
+                        
+                    }
+                    
+                     $scope.greenActive = function(){
+                        if( $scope.com_name !==undefined && $scope.com_name !=="Company not found"){
+                            return true;
+                        }  
+                        else{
+                            return false;
+                        }
+                    }
                     
                 } );
         </script>
@@ -229,14 +258,16 @@
 
                     <div  >
                         <label class="control-label">買受人</label>
-                        <input type="text" class="form-control" ng-value="com_name">
+                        <input type="text" class="form-control" ng-value="com_name" ng-class="     
+                        {'red':redActive(),'green':greenActive()}" readonly >
                     </div>
                     <div >
                         <label class="control-label">統一編號</label>
-                        <input type="text" class="form-control" maxlength="8" ng-model="input" ng-change="change(input)" >
+                        <input type="text" class="form-control" maxlength="8" ng-model="input" ng-change="change(input)" ng-class="     
+                        {'green':input.length===8}">
                
                     </div>
-                </div>
+                </div123456
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row">

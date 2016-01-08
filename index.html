@@ -45,29 +45,34 @@
             
             var invoice_app = angular.module('invoice',['ngResource']);
          
-              invoice_app.factory('instagram', function($resource){
+            invoice_app.factory(
+                'instagram',
+                function($resource){
                     return {
-                        fetchPopular: 
-                        
-                            function(callback){
-                            // The ngResource module gives us the $resource service. It makes working with
-                            // AJAX easy. Here I am using the client_id of a test app. Replace it with yours.
-                            var api = $resource('http://company.g0v.ronny.tw/api/show/:client_id?callback=JSON_CALLBACK',{
-                                client_id: '$scope.input'
-                            },{
-                                // This creates an action which we've chosen to name "fetch". It issues
-                                // an JSONP request to the URL of the resource. JSONP requires that the
-                                // callback=JSON_CALLBACK part is added to the URL.
-                                fetch:{method:'JSONP'}
-                            });
-                            api.fetch(function(response){
-                                // Call the supplied callback function
-                                callback(response.data);
-                                window.console.log(response.data);
-                            });
+                        fetchPopular: function(id, callback){
+                            var api = $resource(
+                                'http://company.g0v.ronny.tw/api/show/:client_id?callback=JSON_CALLBACK',
+                                {
+                                    client_id: id
+                                },
+                                {
+                                    fetch:{
+                                        method:'JSONP'
+                                    },
+                                    request: {
+                                        method: 'GET'
+                                    }
+                                }
+                            );
+                            api.fetch(
+                                function(response){
+                                    callback(response);
+                                }
+                            );
                         }
                     }
-                });
+                }
+            );
             
                 invoice_app.controller('app-ctr',           
         
@@ -75,16 +80,6 @@
                     
                         $scope.array = [];
                 
-                       
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     var RowObj = function() {
                         
                         return { 
@@ -120,7 +115,6 @@
                         if (price === undefined) {
                             price = 0;
                         }
-
                         if (quantity === undefined) {
                             quantity = 0;
                         }
@@ -192,19 +186,28 @@
                     
                     $scope.change = function(i){
                         if(i.length===8){
-                            instagram.fetchPopular(
-                        
-                                function(data){
-                                $scope.array = data;
+                            var callback = function(response){
+                                if (response.error === true) {
+                                    $scope.com_name = response.message;
+                                    return;
                                 }
-                            );
+                                if (response.data["公司名稱"] !== undefined) {
+                                    $scope.com_name = response.data["公司名稱"];
+                                }
+                                else if (response.data["分公司名稱"] !== undefined) {
+                                    $scope.com_name = response.data["分公司名稱"];
+                                }
+                                else if (response.data["商業名稱"] !== undefined) {
+                                    $scope.com_name = response.data["商業名稱"];
+                                }
+                            };
+                           instagram.fetchPopular(i, callback);
                         }
                     }
                     
                     
                     
                 } );
-
         </script>
     </head>
     <body ng-app="invoice">
@@ -226,7 +229,7 @@
 
                     <div  >
                         <label class="control-label">買受人</label>
-                        <input type="text" class="form-control" ng-value="array['分公司名稱']">
+                        <input type="text" class="form-control" ng-value="com_name">
                     </div>
                     <div >
                         <label class="control-label">統一編號</label>

@@ -6,26 +6,138 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
         <script src="https://code.angularjs.org/1.4.8/angular-resource.min.js"></script>
         <style>
+      
+        /* 全體成員 */         
+        body {
+            background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0)), url("http://www.mrwallpaper.com/wallpapers/gradient-background.jpg");
+            background-image: linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0)), url("images/bg01.png");
+            background-color: #f7f7f7;
+            background-position: top left, top left;
+            background-repeat: repeat-x, repeat;
+            background-size: 100% 30em, auto;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 13pt;
+            color: #696969;
+            font-weight: 300;
+            line-height: 2.25em;
+        }
+            
+        input{
+            font-family: 'Open Sans', sans-serif;
+            font-size: 13pt;
+            color: #696969;
+            font-weight: 300;
+            line-height: 2.25em;
+        }
+
+        a {
+            color: #0090c5;
+            text-decoration: underline;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: #444;
+            font-weight: 800;
+        }
+
+		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+			color: inherit;
+			text-decoration: none;
+			outline: 0;
+		}
+
+           #page-wrapper1{
+               background:rgba(255, 255, 255, 0.5);
+               padding-bottom: 2.5em;
+             
+            }  
+      
+            
+           
+            
+        /* Logo */
+            
+        #logo{
+           padding-top: 7em; 
+           padding-bottom: 11.5em;
+           
+        }
+
+     
+
+        #logo h2 {
+           
+            color: #fff;
+            
+            font-family: Modern;
+            font-weight: 400;
+            
+            text-align: center;
+            font-size: 3.25em;
+            letter-spacing: 0.05em;
+           
+       
+        }
+
+        #logo p {
+            font-weight: 800;
+            line-height: 2em;
+            letter-spacing: 0.025em;
+            font-size: 0.9em;
+            text-align: center;
+           
+		}  
+            
+        #main-wrapper {
+            /*background: #008888;*/
+           
+            
+            padding-top: 5em;
+            padding-bottom: 8em;
+            
+        } 
+            
+        #main-wrapper1 {
+          
+            padding-bottom: 4em;
+            
+        }   
+            
+            #main-wrapper p,label,h3{
+                color:white;
+                
+            }   
+            
+          
+          #main-wrapper2 {
+            
+           
+            background:rgba(136, 143, 163, 1);
+            padding-top: 7em;
+            padding-bottom: 4em;
+            
+        }   
+            
+            
+            
             #a{
                
                 background-color: aqua;
             }
             
-            body{
-            padding-top: 60px;
-            font-size: 18px;　　
-            }
+         
             
-            ‪#time‬{
-            font-size: large;
-            }
+         
             
             h2#title{ 
-                /*font-size:60px%;　　　　　          /* 設定文字大小 */
-                text-align: center;
-               /* line-height: 24px;　*/　　          　/* 設定文字行距 */
-                letter-spacing: 50px;　            　/* 設定文字間距 */
-                background-image: url(dot.gif);    /* 設定文字背景圖  */
+               
+               font-weight: 800;
+               line-height: 2em;
+               letter-spacing: 0.025em;
+               font-size: 1.5em;
+               text-align: center;
+               color: #666666;
+            
             } 
             
             
@@ -266,39 +378,48 @@
     </head>
     <body ng-app="invoice">
         <!-- 整個版面-->
-        <div ng-controller="app-ctr">
+        <div id="page-wrapper" ng-controller="app-ctr">
             
             
-            <!-- 主頁面範圍-->
-            <div class="row" background-color="red">
+            <!-- Header -->
+            <div class="row" class="container">
+               
                 <div class="col-xs-12">
-                    <div>
-                        <h2>三聯發票小幫手</h2>
+                    <!-- Logo -->
+                    <div id="logo">
+                        <h2>invoice</h2>
+                        <p>三聯發票小幫手</p>
                         <p>查詢公司全名、檢查統編、計算稅額</p>
-                    </div>
-                 </div>
+                    </div>  
+                </div>
+                
             </div>
-            
+            <div id="page-wrapper1">
             <!-- 標題文字-->
-            <div class="row">
+            <div class="row" class="container">
                 <div class="col-xs-12">
                     <h2 id="title">統一發票</h2>
                 </div>
             </div>
             <!-- 標題月份-->        
-            <div class="row">
+            <div class="row" class="container">
                 <div class="col-xs-12">
-                    <div id="time">
+                    <div>
                         <!-- 之後要調整月份-->
                         <p style="text-align: center">{{timestamp.year-1911}} 年 {{timestamp.month}}、{{timestamp.month+1}} 月 </p>
                     </div>
                 </div>
             </div>
-            
+            </div>
             <!-- 第一段主題-->
-            <div class="row">
+            <div class="row" id="main-wrapper" class="container">
                 <div class="col-xs-12" >
-                    <h3 style="text-align: center">買受人 & 統一編號  <span style="font-size: 60%">統編檢查與公司全名查詢僅含公司行號，不含法人團體。</span></h3>
+                <div class="row" id="main-wrapper1">
+                    <div class="col-xs-12" >
+                        <h3 style="text-align: center">買受人 & 統一編號 </h3>
+                        <p style="text-align: center">統編檢查與公司全名查詢僅含公司行號，不含法人團體。</p>
+                        </div>
+                </div>
                
                 
                     <div class="row">
@@ -307,30 +428,30 @@
 
                               <!-- 買受人-->
                               <div class="form-group">
-                                <label class="control-label col-xs-2">買受人:</label>
-                                <div class="col-xs-4">
-                                  <input type="text" class="form-control"  ng-value="com_name" ng-class="     
+                                <label class="control-label col-sm-4">買受人:</label>
+                                <div class="col-sm-4">
+                                  <input type="text" class="form-control" ng-value="com_name" ng-class="     
                                     {'red':redActive(),'green':greenActive()}" readonly>
                                 </div>
                               </div>
 
                               <!-- 統一編號-->
                               <div class="form-group">
-                                <label class="control-label col-xs-2">統一編號:</label>
-                                <div class="col-xs-4"> 
+                                <label class="control-label col-sm-4">統一編號:</label>
+                                <div class="col-sm-3"> 
                                   <input type="text" class="form-control" maxlength="8" ng-model="input" ng-change="change(input)" ng-class="     
                                     {'green':input.length===8}">
                                 </div>
                                 <!-- 日期-->
-                                <div class="col-xs-6"> 
+                                <div class="col-sm-5"> 
                                   <p>中華民國 {{timestamp.year-1911}} 年 {{timestamp.month}} 月 {{timestamp.date}} 日</p>
                                 </div> 
                               </div>
 
                               <!-- 地址--> 
                               <div class="form-group">
-                                <label class="control-label col-xs-2">地址:</label>
-                                <div class="col-xs-6">
+                                <label class="control-label col-sm-4">地址:</label>
+                                <div class="col-sm-4">
                                   <input type="text" class="form-control"  ng-value="com_address" ng-class="     
                                     {'red':redActive(),'green':greenActive()}" readonly>
                                 </div>
@@ -343,7 +464,7 @@
             </div>
             
             <!-- 第二段主題-->
-             <div class="row">
+             <div class="row" id="main-wrapper2"  class="container">
                 <div class="col-xs-1"></div>
                  
                 <div class="col-xs-10">

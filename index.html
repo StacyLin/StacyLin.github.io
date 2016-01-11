@@ -137,7 +137,8 @@
              /* 統一發票月份區塊*/
             #page-wrapper1{
                background:rgba(255, 255, 255, 0.5);
-               padding-bottom: 2.5em;
+               padding-top: 1.2em;
+               padding-bottom: 3em;
 
             }  
       
@@ -534,7 +535,7 @@
                 </div>
                 
             </div>
-            <div id="page-wrapper1" class="container">
+            <div id="page-wrapper1">
             <!-- 標題文字-->
             <div class="row" class="container">
                 <div class="col-xs-12">
@@ -651,7 +652,7 @@
                      </tr> 
                      <tr>
                         <td>總計新台幣(中文大寫)</td>
-                        <td>
+                        <td colspan="1">
                            <span id = "total-word" >
                              <span ng-repeat="unit in units track by $index" ng-class="{'del': isZero(units.length - $index - 1)}">
                                 <b class="zoom-size"> 

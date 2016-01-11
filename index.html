@@ -6,128 +6,263 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
         <script src="https://code.angularjs.org/1.4.8/angular-resource.min.js"></script>
         <style>
+
       
-        /* 全體成員 */         
-        body {
-            background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0)), url("http://www.mrwallpaper.com/wallpapers/gradient-background.jpg");
-            background-image: linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0)), url("images/bg01.png");
-            background-color: #f7f7f7;
-            background-position: top left, top left;
-            background-repeat: repeat-x, repeat;
-            background-size: 100% 30em, auto;
-            font-family: 'Open Sans', sans-serif;
-            font-size: 13pt;
-            color: #696969;
-            font-weight: 300;
-            line-height: 2.25em;
-        }
+            /* 全體成員 */         
+            body {
+                background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0)),      url("http://www.mrwallpaper.com/wallpapers/gradient-background.jpg");
+                 background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0)), url("http://www.mrwallpaper.com/wallpapers/gradient-background.jpg");
+                background-image: linear-gradient(top, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0)), url("images/bg01.png");
+
+
+                background-position: top left, top left;
+                background-repeat: repeat-x,repeat;
+                background-size: 100% 30em, auto;
+                font-family: Cursive;
+                font-size: 13pt;
+                color: #696969;
+                font-weight: 300;
+                line-height: 2.25em;
+
+            }
+     
+  
+            /* 動畫區 */      
+       
+            /*slidein從上而下 */  
+            @-moz-keyframes  slidein {
+                from {top:-100%;}
+                to {top:0%;}
+            }
             
-        input{
-            font-family: 'Open Sans', sans-serif;
-            font-size: 13pt;
-            color: #696969;
-            font-weight: 300;
-            line-height: 2.25em;
-        }
+            @-webkit-keyframes  slidein {
+                from {top:-100%;}
+                to {top:0%;}
+            }
+            
+            
+            /*slidein從下而上 */
+            @-moz-keyframes  slideout {
+                from {bottom:-150%;}
+                to {bottom:0%;}
+            }
+            
+            @-webkit-keyframes  slideout {
+                from {bottom:-150%;}
+                to {bottom:0%;}
+            }
+            
+            
+            
+            /*slidein1斜對角 */
+             @-moz-keyframes  slidein1 {
+                from {
+                    margin-top: 100%;
+                    width: 300%; 
+                 }
 
-        a {
-            color: #0090c5;
-            text-decoration: underline;
-        }
+                to {
+                    margin-top: 0%;
+                    width: 100%;
+                }
+             }
+            
+             @-webkit-keyframes  slidein1 {
+                from {
+                    margin-top: 100%;
+                    width: 300%; 
+                }
+
+                to {
+                    margin-top: 0%;
+                    width: 100%;
+                }
+             }
+            
+          
         
-        h1, h2, h3, h4, h5, h6 {
-            color: #444;
-            font-weight: 800;
-        }
+            /*fadeIn淡入 */
+            @-moz-keyframes fadeIn {
+                0% {
+                    opacity: 0; /*初始状态 透明度为0*/
+                }
+                50% {
+                    opacity: 0; /*中间状态 透明度为0*/
+                }
+                100% {
+                    opacity: 1; /*结尾状态 透明度为1*/
+                }
+            }
 
-		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-			color: inherit;
-			text-decoration: none;
-			outline: 0;
-		}
+             @-webkit-keyframes fadeIn {
+                0% {
+                    opacity: 0; /*初始状态 透明度为0*/
+                }
+                50% {
+                    opacity: 0; /*中间状态 透明度为0*/
+                }
+                100% {
+                    opacity: 1; /*结尾状态 透明度为1*/
+                }
+            }
+            
+            
+            
+     
+            
+            input{
+                font-family: 'Open Sans', sans-serif;
+                font-size: 13pt;
+                font-weight: 300;
+                line-height: 2.25em;
+            }
 
-           #page-wrapper1{
+            a {
+                color: #0090c5;
+                text-decoration: underline;
+            }
+
+            h1, h2, h3 {
+                color: #444;
+                font-weight: 800;
+            }
+
+            h1 a, h2 a, h3 a {
+                color: inherit;
+                text-decoration: none;
+                outline: 0;
+            }
+
+            
+             /* 統一發票月份區塊*/
+            #page-wrapper1{
                background:rgba(255, 255, 255, 0.5);
                padding-bottom: 2.5em;
-             
+
             }  
       
             
            
-            
-        /* Logo */
-            
-        #logo{
-           padding-top: 7em; 
-           padding-bottom: 11.5em;
-           
-        }
 
-     
+            /* Logo invoice標題區塊*/
 
-        #logo h2 {
-           
-            color: #fff;
-            
-            font-family: Modern;
-            font-weight: 400;
-            
-            text-align: center;
-            font-size: 3.25em;
-            letter-spacing: 0.05em;
-           
-       
-        }
+            #logo{
+               padding-top: 7em; 
+               padding-bottom: 15em;
 
-        #logo p {
-            font-weight: 800;
-            line-height: 2em;
-            letter-spacing: 0.025em;
-            font-size: 0.9em;
-            text-align: center;
-           
-		}  
+            }
+
+
+            #logo h2 {
+
+                color: #fff;
+                font-family: Cursive;
+                font-weight: 400;   
+                text-align: center;
+                font-size: 3.25em;
+                letter-spacing: 0.05em;
+                -moz-animation-name: slidein;
+                -moz-animation-duration:3s;
+                position:relative;
+            }
+
+            #logo p {
+                font-weight: 800;
+                line-height: 2em;
+                letter-spacing: 0.025em;
+                font-size: 0.9em;
+                text-align: center;
+               -moz-animation-name: fadeIn;
+                -moz-animation-duration:3s;
+                position:relative;
+            }  
             
-        #main-wrapper {
-            /*background: #008888;*/
-           
             
-            padding-top: 5em;
-            padding-bottom: 8em;
+            /* 第一段主題區塊:查詢統編*/
             
-        } 
+            #main-wrapper {
+             
+                padding-top: 8em;
+                padding-bottom: 13em;
+
+            } 
             
-        #main-wrapper1 {
+            /* 第一段主題區塊:查詢統編大標題*/
+            #main-wrapper1 {
           
-            padding-bottom: 4em;
+                padding-bottom: 4em;
             
-        }   
+            }   
             
-            #main-wrapper p,label,h3{
+            /* 第一段主題區塊:文字顏色*/
+            #main-wrapper p, h3{
                 color:white;
                 
             }   
             
+            
+            
+            
           
-          #main-wrapper2 {
+           #main-wrapper2 {
             
-           
-            background:rgba(136, 143, 163, 1);
-            padding-top: 7em;
-            padding-bottom: 4em;
+                background:rgba(63, 74, 72, 1);
+                padding-top: 7em;
+                padding-bottom: 12em;
             
-        }   
+            } 
+        
+            
+            #main-wrapper2 tr{
+            
+                color:white;
+                font-family: 'Open Sans', sans-serif;
+                font-size: 13pt;
+                text-align: center;
+                font-weight: 300;
+                line-height: 2.25em;
+            } 
+         
+            #main-wrapper2 th{
+            
+                color:white;
+                font-family: 'Open Sans', sans-serif;
+                font-size: 13pt;
+                text-align: center;
+                font-weight: 300;
+                line-height: 2.25em;
+            } 
             
             
-            
-            #a{
-               
-                background-color: aqua;
+            #main-wrapper2 input{
+		
+		        border-radius: 8px;
+      
             }
             
-         
             
-         
+            
+            
+            form label {
+                font-weight: 800;
+                font-size: 1em;
+                color: #444;
+            }
+
+            form input[type="text"],
+            form select,
+            form textarea {
+                -webkit-appearance: none;
+                display: block;
+                width: 100%;
+                border-radius: 8px;
+
+            }
+
+
+            
+            
+            
             
             h2#title{ 
                
@@ -141,13 +276,10 @@
             } 
             
             
-            
-            
-            
             .zoom-size{
             font-size:22px;
             font-weight:bold;
-            color: deeppink;
+            color:hotpink;
             }
             
             .del{
@@ -161,14 +293,22 @@
             }
             
             .red{
-                border-color:red;
-                border-width: 3px;
+                background-color:hotpink;
+                border-color:hotpink;
+                border-width: 0.5px;
+                color:white;
+                font-weight: 500;
             }
             
             .green{
-                border-color:green;
-                border-width: 3px;
+                background-color:rgba(0, 255, 255, 0.3);
+                border-color:rgba(0, 255, 255, 0.5);
+                border-width: 0.5px;
+                color:white;
+                font-weight: 500;
             }
+            
+            
         </style>
         <script>
             
@@ -394,7 +534,7 @@
                 </div>
                 
             </div>
-            <div id="page-wrapper1">
+            <div id="page-wrapper1" class="container">
             <!-- 標題文字-->
             <div class="row" class="container">
                 <div class="col-xs-12">
@@ -416,7 +556,7 @@
                 <div class="col-xs-12" >
                 <div class="row" id="main-wrapper1">
                     <div class="col-xs-12" >
-                        <h3 style="text-align: center">買受人 & 統一編號 </h3>
+                        <h3 style="text-align: center">請輸入統一編號 </h3>
                         <p style="text-align: center">統編檢查與公司全名查詢僅含公司行號，不含法人團體。</p>
                         </div>
                 </div>
@@ -431,7 +571,7 @@
                                 <label class="control-label col-sm-4">買受人:</label>
                                 <div class="col-sm-4">
                                   <input type="text" class="form-control" ng-value="com_name" ng-class="     
-                                    {'red':redActive(),'green':greenActive()}" readonly>
+                                    {'red':redActive(),'green':greenActive()}" >
                                 </div>
                               </div>
 
@@ -439,8 +579,8 @@
                               <div class="form-group">
                                 <label class="control-label col-sm-4">統一編號:</label>
                                 <div class="col-sm-3"> 
-                                  <input type="text" class="form-control" maxlength="8" ng-model="input" ng-change="change(input)" ng-class="     
-                                    {'green':input.length===8}">
+                                  <input type="text" class="form-control" maxlength="8" ng-model="input" ng-change="change(input)"   
+                                ng-class="{'green':input.length===8}">
                                 </div>
                                 <!-- 日期-->
                                 <div class="col-sm-5"> 
@@ -453,7 +593,7 @@
                                 <label class="control-label col-sm-4">地址:</label>
                                 <div class="col-sm-4">
                                   <input type="text" class="form-control"  ng-value="com_address" ng-class="     
-                                    {'red':redActive(),'green':greenActive()}" readonly>
+                                    {'red':redActive(),'green':greenActive()}">
                                 </div>
                               </div>
 
@@ -464,11 +604,12 @@
             </div>
             
             <!-- 第二段主題-->
-             <div class="row" id="main-wrapper2"  class="container">
+            
+             <div class="row" id="main-wrapper2"  >
                 <div class="col-xs-1"></div>
                  
                 <div class="col-xs-10">
-                  <table class="table table-bordered">
+                  <table class="table">
                      <tr>
                         <th>品名</th><th>數量</th><th>單價(含稅)</th><th>單價(未稅)</th><th>金額(未稅)</th><th>&nbsp;</th>
                      </tr>
@@ -478,7 +619,9 @@
                         <td><input type="number" class="form-control" placeholder="數量" ng-model="row.quantity"/></td> 
                         <td><input type="number" class="form-control" placeholder="單價(含稅)" ng-model="row.price" /></td>
                         <td><input type="number" class="form-control" ng-value="cost(row.price)" readonly></td>
-                        <td><input type="number" class="form-control" ng-value="totalCost($index, row.price,row.quantity)" readonly></td>
+                        <td><input type="number" class="form-control" ng-value="totalCost($index, row.price,row.quantity)" readonly> 
+                         </td>
+                         
                         <td>
                           <button class="btn btn-default" ng-click="addRow()" ng-show="$last" >
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -490,10 +633,10 @@
                       </tr>               
                   </table>
                     
-                  <table class="table table-hover">
+                  <table class="table">
                      <tr>
                         <td>銷售合計</td>
-                        <td colspan="3"><input type="number" class="form-control" ng-value="selltotal()" readonly></td>  
+                        <td colspan="1"><input type="number" class="form-control" ng-value="selltotal()" readonly></td>  
                      </tr>
                      <tr>
                         <td>營業稅%</td>
@@ -504,7 +647,7 @@
                      </tr>
                      <tr>
                         <td>總計</td>
-                        <td colspan="3"><input type="number" class="form-control" ng-value="total()" readonly/></td>  
+                        <td colspan="1"><input type="number" class="form-control" ng-value="total()" readonly/></td>  
                      </tr> 
                      <tr>
                         <td>總計新台幣(中文大寫)</td>
